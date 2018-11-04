@@ -1,6 +1,7 @@
 function out = SAA(func,para)
 
 %% -----------------Problem Definition------------------------------------------------------
+% opff submitted to opti:
 
 CostFunction=func.CostFunction;                       % Objective Function
 PGMAX=func.PGMAX; 
