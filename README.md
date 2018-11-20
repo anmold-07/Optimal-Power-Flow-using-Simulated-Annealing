@@ -2,7 +2,7 @@
 
 The codes for this mini-project are part of the assignment for the course EEPE40 - Modern Optimization Techniques for Electrical Power Systems at NIT Tiruchirappalli, India.
 
-# This mini-projects mainly contains three files:   
+# This mini-project mainly contains three files:   
 The first file "Newton Raphson Implementation" solves an OPF problem using Newton Raphson load flow solution.  
 
 The Second file "SAA implementation on standard functions" finds the optimum solutions to standard functions like Ackley, Easom and Himmelblau.  
