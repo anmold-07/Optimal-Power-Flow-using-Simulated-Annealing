@@ -1,12 +1,24 @@
 function out = SAA(func,para)
 
 %% -----------------Problem Definition------------------------------------------------------
+% opff submitted to opti:
 
-CostFunction=func.CostFunction;          % Objective Function
-nVar = func.nVar;                        % Variables 
-VarSize = [1 nVar];                      % Variable Mat Size
-VarMin = func.VarMin;                    % Lower Bound 
-VarMax = func.VarMax;                    % Upper Bound 
+CostFunction=func.CostFunction;                       % Objective Function
+PGMAX=func.PGMAX; 
+PGMIN=func.PGMIN;
+VGMIN=func.VGMIN;
+VGMAX=func.VGMIN;
+TAPMIN=func.TAPMIN;
+TAPMAX=func.TAPMAX;
+%XMIN=[VGMIN PGMIN TAPMIN];
+%XMAX=[VGMAX PGMAX TAPMAX];
+
+PVar=func.PVar;
+VVar=func.VVar;
+TVar=func.TVar;
+PSize = [1 PVar];   
+VSize =[1 VVar]; 
+TSize = [1 TVar];
 
 %% -------------------Parameters--------------------------------------------------------------
 MaxIt=para.MaxIt;                        % Maximum Number of Iterations
@@ -16,10 +28,11 @@ alpha=para.alpha;                        % Temp Reduction Rate
 nPop=para.nPop;                          % Population Size
 nNeigh=para.nNeigh;                      % Number of Neighbors per Individual
 mu=para.mu;                              % Mutation Rate
-sigma=para.sigma;                        % Mutation Range
+sigmaV=para.sigmaV;                      % Mutation Range
+sigmaP=para.sigmaP;                      % Mutation Range
+sigmaT=para.sigmaT;                      % Mutation Range
 
-%% ------------------Initialization----------------------------------------------------------
-
+%% ------------------Initialization----------------------------------------
 % Empty structure for Individual
 ind.Position=[];
 ind.Cost=[];
@@ -34,15 +47,20 @@ BestSol.Cost=inf;
 for i=1:nPop
     
     % Initialize Position
-    pop(i).Position = unifrnd(VarMin, VarMax, VarSize);
+    b=unifrnd(VGMIN,VGMAX,VSize);
+    a=unifrnd(PGMIN,PGMAX,PSize);
+    c=unifrnd(TAPMIN,TAPMAX,TSize);
+    %c=unifrnd(TAPMIN,TAPMAX,TSize);
+    pop(i).Position = [b a c];
     
     % Evaluation
-    pop(i).Cost=CostFunction(pop(i).Position);
+    [pop(i).Cost,k,b]=CostFunction(pop(i).Position);  %% IDHAR CALCULATE KARO "IMPORTANT HAI BHAI"
     
     % Best Sol Update
     if pop(i).Cost<=BestSol.Cost
         BestSol=pop(i);
     end
+    
  end
 
 % Hold Best Costs
@@ -55,15 +73,14 @@ T=T0;
 for it=1:MaxIt
     
     for subit=1:submit
-        %------New Solutions-----
+                                                                           %-New Solutions--
         newpop = repmat(ind,nPop,nNeigh);
         
         for i=1:nPop
-            for j=1:nNeigh
-                
+            for j=1:nNeigh        
                 % Create Neighbor
-                newpop(i,j).Position=Neh(pop(i).Position,mu,sigma,VarMin,VarMax);
-                newpop(i,j).Cost=CostFunction(newpop(i,j).Position);
+                  newpop(i,j).Position=Neh(pop(i).Position,mu,sigmaV,sigmaP,sigmaT,PGMIN,PGMAX,VGMIN,VGMAX,TAPMIN,TAPMAX); %%%%%
+                 [newpop(i,j).Cost,k,b]=CostFunction(newpop(i,j).Position);          %%%%%
             end
         end
 
@@ -85,8 +102,8 @@ for it=1:MaxIt
                 if rand<=P
                     pop(i)=newpop(i);
                 end       
-                
             end
+            
  % POP PURANEY VALEY KO PURI TARAH SEIN ACCEPT KAR LIA HAI------------------
                                                                             
             % Update Best Sol Found
@@ -106,10 +123,14 @@ for it=1:MaxIt
     % Update Temp.
     T=alpha*T;
     
-    sigma = 0.99*sigma;
-
+    sigmaP = 0.99*sigmaP;
+    sigmaT = 0.99*sigmaT;
+    sigmaV = 0.99*sigmaV;  
+    
+    out.b=b;
+    out.k=k;
+    out.newpop=newpop;
     out.BestCost=BestCost;
     out.pop=pop;
     out.BestSol=BestSol;
-    
 end
