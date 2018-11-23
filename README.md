@@ -11,4 +11,4 @@ The third file "SAA-OPF implementation using MATPOWER loadflow" solves an OPF fo
 
 
 # How to Run the Files?
-Add the following files in the MATPOWER package so that you don't miss any load-flow file. The file named "sa1.m" is the main file, which upon execution calls all the other sub-routines responsible to run the OPF. You can modify/control all the parameters of Simuated Annealing from the sa1.m. The result are finally displayed in the form of a graph. 
+Add the following files in the MATPOWER package so that you don't miss any load-flow file. The file named "sa1.m" is the main file, which upon execution calls all the other sub-routines responsible to run the OPF. You can modify/control all the parameters of Simuated Annealing from the "sa1.m". The result are finally displayed in the form of a graph. 
