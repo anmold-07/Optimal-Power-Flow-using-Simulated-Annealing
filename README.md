@@ -6,6 +6,7 @@ The codes for this mini-project are part of the assignment for the course EEPE40
 The first file "Newton Raphson Implementation" solves an OPF problem using Newton Raphson load flow solution.  
 
 The Second file "SAA implementation on standard functions" finds optimal solutions to standard functions like Ackley, Easom and Himmelblau.  
+
 The third file "SAA-OPF implementation using MATPOWER loadflow" solves an OPF for an IEEE-14 and IEEE-30 Bus System with an objective to minimize losses in the network using the load flow solutions from the MATPOWER package. In order to keep a check on the constraints, a penalty function is added "penalty=penalty_slack+penalty_V+penalty_Qgen" to keep the real, reactive powers and voltages under limits. A suitable script in the file "sph.m" is written to address the constraints.
 
 
